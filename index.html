@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8"/>
+        <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+        <title>Today's Checklist - T-DO List</title>
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap"
+    rel="stylesheet"
+  />
+    <link rel="stylesheet" href="style.css"/>
+    </head>
+    <body>
+        <div class="desk">
+            <main class="notebbok-card">
+                <div class="washi-tape" aria-hidden="true"></div>
+                <header class="app-header">
+                 <h1 class="app-title">Today's Checklist</h1>
+                 <p class="app-subttile">Small steps, ticked of one by one.</p>
+
+                </header>
+                <form id="task-form" class="task-form">
+                 <input
+                 type="text"
+                 id="task-input"
+                 class="task-input"
+                 placeholder="What needs doing?"
+                 autocomplete="off"
+                 maxlength="120"/>
+
+                 <button type="Submit" class="add-btn">Add</button>
+            
+                </form>
+                <div class="filter-tabs" id="filter-tabs">
+                    <button class="filter-btn active" data-filter="all" type="button"
+                    >All</button>
+
+                    <button class="filter-btn" data-filter="active" type="button">
+                        Active
+                    </button>
+                    <button class="filter-btn" data-filter="Completed" type="button">Completed</button>
+
+                </div>
+                 <ul id="task-list" class="task-list"></ul>
+                 <p id="empty-state" class="empty-state">
+                    Your list is empty. add you first task above
+                 </p>
+
+                 <footer class="app-footer">
+                    <span id="task-counter" class="task-counter">0 task left</span>
+                    <button id="clear-completed" class="clear-btn" type="button">Clear completed</button>
+
+                 </footer>
+            </main>
+        </div>
+        <script src="script.js"></script>
+
+    </body>
+    
+
+</html>
