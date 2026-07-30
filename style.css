@@ -1,0 +1,427 @@
+/* ==========================================================================
+   DESIGN TOKENS
+   Every color, font, and spacing value the page uses is defined once here.
+   Change a value in :root and it updates everywhere it's used below.
+   ========================================================================== */
+:root {
+  /* Colors — a "paper & ink" palette, not the usual purple gradient */
+  --color-desk: #E9E6DA;         /* the background behind the card       */
+  --color-paper: #F8F6F1;        /* the card itself                      */
+  --color-ink: #26322C;          /* main text color                      */
+  --color-ink-soft: #5B655E;     /* secondary text                       */
+  --color-muted: #9AA39B;        /* completed / low-emphasis text        */
+  --color-accent: #2F6F5E;       /* teal-green — checkmarks, active tab  */
+  --color-accent-light: #E3EEE8; /* pale accent background               */
+  --color-mustard: #D9A441;      /* washi tape + small highlights        */
+  --color-delete: #B54B4B;       /* delete button hover                  */
+  --color-line: #DAD5C7;         /* dividers / dotted rules              */
+
+  /* Fonts */
+  --font-display: "Fraunces", Georgia, serif;
+  --font-body: "Inter", system-ui, sans-serif;
+  --font-mono: "IBM Plex Mono", "Courier New", monospace;
+
+  /* Shape & shadow */
+  --radius-card: 20px;
+  --radius-sm: 8px;
+  --shadow-card: 0 24px 60px -24px rgba(38, 50, 44, 0.35), 0 2px 10px rgba(38, 50, 44, 0.08);
+}
+
+/* ==========================================================================
+   RESET / BASE
+   ========================================================================== */
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: var(--font-body);
+  color: var(--color-ink);
+}
+
+button {
+  font-family: inherit;
+  cursor: pointer;
+}
+
+/* Clear, visible focus ring for anyone navigating with a keyboard */
+:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 2px;
+}
+
+/* Respect users who've asked their system to reduce motion */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation: none !important;
+    transition: none !important;
+  }
+}
+
+/* ==========================================================================
+   PAGE BACKGROUND ("the desk")
+   A soft dot-grid pattern gives it the feel of graph/desk paper.
+   ========================================================================== */
+.desk {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 32px 16px;
+  background-color: var(--color-desk);
+  background-image: radial-gradient(var(--color-line) 1.4px, transparent 1.4px);
+  background-size: 22px 22px;
+}
+
+/* ==========================================================================
+   THE CARD
+   ========================================================================== */
+.notebook-card {
+  position: relative;
+  width: 100%;
+  max-width: 460px;
+  background: var(--color-paper);
+  border-radius: var(--radius-card);
+  box-shadow: var(--shadow-card);
+  padding: 40px 32px 28px;
+}
+
+/* Decorative strip of tape — the one "signature" flourish on the page */
+.washi-tape {
+  position: absolute;
+  top: -14px;
+  left: 44px;
+  width: 92px;
+  height: 26px;
+  transform: rotate(-6deg);
+  border-radius: 2px;
+  background: repeating-linear-gradient(
+    45deg,
+    var(--color-mustard),
+    var(--color-mustard) 6px,
+    #ecc575 6px,
+    #ecc575 12px
+  );
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.15);
+}
+
+/* ==========================================================================
+   HEADER
+   ========================================================================== */
+.app-header {
+  text-align: center;
+  margin-bottom: 24px;
+}
+
+.app-title {
+  margin: 0 0 4px;
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 2rem;
+  letter-spacing: -0.01em;
+}
+
+.app-subtitle {
+  margin: 0;
+  color: var(--color-ink-soft);
+  font-size: 0.95rem;
+}
+
+/* ==========================================================================
+   ADD TASK FORM
+   ========================================================================== */
+.task-form {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 18px;
+}
+
+.task-input {
+  flex: 1;
+  min-width: 0; /* lets the input shrink instead of overflowing on mobile */
+  padding: 12px 14px;
+  font-family: var(--font-body);
+  font-size: 0.95rem;
+  color: var(--color-ink);
+  background: #fff;
+  border: 1.5px solid var(--color-line);
+  border-radius: var(--radius-sm);
+  transition: border-color 0.15s ease;
+}
+
+.task-input:focus-visible {
+  border-color: var(--color-accent);
+}
+
+.add-btn {
+  padding: 12px 20px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: #fff;
+  background: var(--color-accent);
+  border: none;
+  border-radius: var(--radius-sm);
+  transition: background 0.15s ease, transform 0.1s ease;
+}
+
+.add-btn:hover {
+  background: #285f50;
+}
+
+.add-btn:active {
+  transform: scale(0.97);
+}
+
+/* ==========================================================================
+   FILTER TABS
+   ========================================================================== */
+.filter-tabs {
+  display: flex;
+  gap: 6px;
+  margin-bottom: 14px;
+}
+
+.filter-btn {
+  flex: 1;
+  padding: 8px 0;
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: var(--color-ink-soft);
+  background: var(--color-accent-light);
+  border: none;
+  border-radius: var(--radius-sm);
+  transition: background 0.15s ease, color 0.15s ease;
+}
+
+.filter-btn:hover {
+  color: var(--color-ink);
+}
+
+.filter-btn.active {
+  color: #fff;
+  background: var(--color-accent);
+}
+
+/* ==========================================================================
+   TASK LIST
+   ========================================================================== */
+.task-list {
+  list-style: none;
+  margin: 0 0 8px;
+  padding: 0;
+}
+
+.task-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 2px;
+  border-bottom: 1.5px dashed var(--color-line);
+}
+
+.task-item:last-child {
+  border-bottom: none;
+}
+
+/* --- custom checkbox ------------------------------------------------- */
+.task-checkbox {
+  position: relative;
+  flex-shrink: 0;
+  width: 22px;
+  height: 22px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.task-checkbox input[type="checkbox"] {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  opacity: 0; /* the real checkbox is invisible; we draw our own below */
+  cursor: pointer;
+}
+
+.task-checkbox::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border: 2px solid var(--color-ink-soft);
+  border-radius: 6px;
+  background: #fff;
+  transition: background 0.15s ease, border-color 0.15s ease;
+}
+
+/* the hand-drawn checkmark, hidden until the task is completed */
+.check-icon {
+  position: relative;
+  width: 13px;
+  height: 13px;
+  pointer-events: none;
+}
+
+.check-icon path {
+  fill: none;
+  stroke: #fff;
+  stroke-width: 3;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-dasharray: 20;
+  stroke-dashoffset: 20; /* the checkmark "line" starts fully hidden... */
+  transition: stroke-dashoffset 0.25s ease;
+}
+
+/* ...and draws itself in once the parent <li> gets the "completed" class */
+.task-item.completed .task-checkbox::before {
+  background: var(--color-accent);
+  border-color: var(--color-accent);
+}
+
+.task-item.completed .check-icon path {
+  stroke-dashoffset: 0;
+}
+
+/* --- task text --------------------------------------------------------- */
+.task-text {
+  flex: 1;
+  font-size: 0.95rem;
+  word-break: break-word;
+  transition: color 0.15s ease;
+}
+
+.task-item.completed .task-text {
+  color: var(--color-muted);
+  text-decoration: line-through;
+}
+
+/* --- inline edit input --------------------------------------------------
+   Hidden by default; swapped in for .task-text while a task is being edited */
+.edit-input {
+  display: none;
+  flex: 1;
+  min-width: 0;
+  padding: 6px 8px;
+  font-family: var(--font-body);
+  font-size: 0.95rem;
+  border: 1.5px solid var(--color-accent);
+  border-radius: var(--radius-sm);
+}
+
+.task-item.editing .task-text {
+  display: none;
+}
+
+.task-item.editing .edit-input {
+  display: block;
+}
+
+/* --- edit / delete buttons ---------------------------------------------- */
+.task-actions {
+  display: flex;
+  gap: 4px;
+  flex-shrink: 0;
+}
+
+.edit-btn,
+.delete-btn {
+  width: 30px;
+  height: 30px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.95rem;
+  background: transparent;
+  border: none;
+  border-radius: var(--radius-sm);
+  color: var(--color-ink-soft);
+  transition: background 0.15s ease, color 0.15s ease;
+}
+
+.edit-btn:hover {
+  background: var(--color-accent-light);
+  color: var(--color-accent);
+}
+
+.delete-btn:hover {
+  background: #f5e4e2;
+  color: var(--color-delete);
+}
+
+/* ==========================================================================
+   EMPTY STATE
+   ========================================================================== */
+.empty-state {
+  display: none; /* toggled to "block" by JavaScript when the list is empty */
+  margin: 18px 0 8px;
+  text-align: center;
+  font-size: 0.9rem;
+  color: var(--color-ink-soft);
+}
+
+/* ==========================================================================
+   FOOTER
+   ========================================================================== */
+.app-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 14px;
+  padding-top: 14px;
+  border-top: 1.5px solid var(--color-line);
+}
+
+.task-counter {
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  color: var(--color-ink-soft);
+}
+
+.clear-btn {
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  color: var(--color-ink-soft);
+  background: none;
+  border: none;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.clear-btn:hover {
+  color: var(--color-delete);
+}
+
+/* ==========================================================================
+   RESPONSIVE DESIGN
+   ========================================================================== */
+@media (max-width: 480px) {
+  .notebook-card {
+    padding: 32px 20px 22px;
+    border-radius: 16px;
+  }
+
+  .app-title {
+    font-size: 1.6rem;
+  }
+
+  .task-form {
+    flex-direction: column;
+  }
+
+  .add-btn {
+    width: 100%;
+  }
+
+  .task-actions {
+    /* on touch devices there's no hover, so keep actions compact but visible */
+    gap: 2px;
+  }
+
+  .app-footer {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+  }
+}
